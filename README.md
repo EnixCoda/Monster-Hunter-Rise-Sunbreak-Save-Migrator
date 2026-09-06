@@ -26,4 +26,4 @@ cd web && npx playwright test e2e/   # web e2e (16 specs)
 ```
 
 ## License
-[MIT](./LICENSE); attribution & third-party data in [NOTICE](./NOTICE). Unofficial fan tool, not affiliated with or endorsed by CAPCOM.
+[MIT](./LICENSE). Derived from [kvasszn/ree-save-editor](https://github.com/kvasszn/ree-save-editor) (upstream has no explicit license). Unofficial fan tool, not affiliated with or endorsed by CAPCOM.
