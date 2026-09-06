@@ -1,0 +1,157 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+@theme {
+  --color-ink: #0e0d13;
+  --color-ink2: #16151f;
+  --color-card: #1b1a26;
+  --color-card2: #252435;
+  --color-line: #3a3850;
+  --color-cream: #efe9d6;
+  --color-dim: #b4ab95;
+  --color-gold: #d9be85;
+  --color-gold2: #eed7a4;
+  --color-wine: #a10d0d;
+  --color-ember: #e06a37;
+  --color-parch: #242434;
+}
+
+:root { color-scheme: dark; }
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.font-display { font-family: 'Cinzel', serif; }
+
+/* --- ambient animated background (ember glow + ink) --- */
+.bg-scene {
+  position: fixed; inset: 0; z-index: -2;
+  background:
+    radial-gradient(60% 45% at 15% -5%, rgba(217,190,133,.13), transparent 60%),
+    radial-gradient(50% 40% at 90% 10%, rgba(158,14,14,.16), transparent 60%),
+    radial-gradient(70% 60% at 50% 110%, rgba(224,106,55,.09), transparent 60%),
+    linear-gradient(180deg, #12101a 0%, #0d0c12 100%);
+}
+.bg-scene::after {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(rgba(243,233,210,.05) 1px, transparent 1px),
+    radial-gradient(rgba(217,190,133,.05) 1px, transparent 1px);
+  background-size: 44px 44px, 22px 22px;
+  opacity: .5;
+  mask-image: linear-gradient(180deg, #000, transparent 60%);
+  animation: emberDrift 22s ease-in-out infinite alternate;
+}
+@keyframes emberDrift { from { transform: translateY(0); } to { transform: translateY(-32px); } }
+
+.orb { position: fixed; border-radius: 50%; filter: blur(90px); z-index: -1; opacity: .55; pointer-events: none; }
+.orb-a { width: 420px; height: 420px; top: -120px; left: -80px; background: radial-gradient(circle, rgba(217,190,133,.45), transparent 70%); animation: orbFloat 12s ease-in-out infinite; }
+.orb-b { width: 380px; height: 380px; bottom: -140px; right: -60px; background: radial-gradient(circle, rgba(158,14,14,.42), transparent 70%); animation: orbFloat 15s ease-in-out infinite reverse; }
+@keyframes orbFloat { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px,-24px); } }
+
+/* --- title / accent --- */
+.title-glow {
+  text-shadow: 0 0 26px rgba(238,215,164,.30), 0 2px 0 rgba(0,0,0,.5);
+}
+.gold-grad-text {
+  background: linear-gradient(180deg, #f4e3bd 0%, #d9be85 55%, #b08c52 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* --- cards: engraved panel --- */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, rgba(37,36,52,.9), rgba(22,21,31,.92));
+  border: 1px solid var(--color-line);
+  border-radius: 1.25rem;
+  box-shadow: 0 18px 40px -18px rgba(0,0,0,.7), inset 0 1px 0 rgba(243,233,210,.06);
+  overflow: hidden;
+}
+.panel::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(217,190,133,.06), transparent 40%);
+}
+.panel.done { border-color: rgba(217,190,133,.55); box-shadow: 0 18px 44px -16px rgba(217,190,133,.28), inset 0 1px 0 rgba(243,233,210,.08); }
+.panel.active { border-color: rgba(238,215,164,.7); box-shadow: 0 0 0 1px rgba(238,215,164,.35), 0 18px 50px -14px rgba(238,215,164,.35); }
+
+/* --- step number medallion --- */
+.medal {
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #eed7a4, #b08c52 70%);
+  color: #241c10; font-weight: 800; box-shadow: 0 4px 14px rgba(176,140,82,.45), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.medal.done { background: radial-gradient(circle at 30% 25%, #9fe6a8, #3f8f4f 70%); box-shadow: 0 4px 14px rgba(63,143,79,.5); }
+.medal.active { animation: medalPulse 2.2s ease-in-out infinite; }
+@keyframes medalPulse { 0%,100% { box-shadow: 0 4px 14px rgba(176,140,82,.45); } 50% { box-shadow: 0 4px 22px rgba(238,215,164,.85); } }
+
+/* --- buttons --- */
+.btn {
+  position: relative; display: inline-flex; align-items: center; gap: .5rem;
+  border-radius: .7rem; padding: .55rem 1.1rem; font-weight: 700; font-size: .9rem;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.btn-gold { background: linear-gradient(180deg, #eed7a4, #d9be85); color: #241c10; box-shadow: 0 8px 20px -8px rgba(217,190,133,.62); }
+.btn-gold:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 26px -8px rgba(238,215,164,.8); }
+.btn-ghost { background: rgba(37,36,52,.6); color: var(--color-cream); border: 1px solid var(--color-line); }
+.btn-ghost:hover:not(:disabled) { background: rgba(37,36,52,.9); transform: translateY(-2px); }
+.btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+
+/* --- flow pipeline visualization --- */
+.flow { display: flex; align-items: center; justify-content: center; gap: 0; }
+.flow-node {
+  display: flex; flex-direction: column; align-items: center; gap: .35rem;
+  width: 76px; color: var(--color-dim); transition: color .3s;
+}
+.flow-node .ico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 1rem;
+  background: linear-gradient(180deg, #252435, #1b1a26); border: 1px solid var(--color-line); transition: all .3s; }
+.flow-node.on { color: var(--color-gold2); }
+.flow-node.on .ico { border-color: rgba(238,215,164,.7); box-shadow: 0 0 24px rgba(238,215,164,.35); }
+.flow-link { position: relative; height: 3px; width: 60px; border-radius: 999px; overflow: hidden; background: #262433; }
+.flow-link .bar { position: absolute; inset: 0; transform: translateX(-100%); }
+.flow-link.on .bar { background: linear-gradient(90deg, #d9be85, #f4e3bd); animation: flowBar 1.6s linear infinite; }
+@keyframes flowBar { to { transform: translateX(100%); } }
+
+/* packet dots traveling along the connector */
+.packets { position: absolute; inset: 0; pointer-events: none; }
+.packet { position: absolute; top: 50%; width: 9px; height: 9px; margin-top: -5px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff6dd, #eed7a4 60%, #b08c52); box-shadow: 0 0 12px rgba(238,215,164,.9);
+  animation: packetRun 1.4s linear infinite; }
+.packet.n2 { animation-delay: .45s; }
+.packet.n3 { animation-delay: .9s; }
+@keyframes packetRun { from { left: -10px; opacity: 0; } 15% { opacity: 1; } to { left: calc(100% + 6px); opacity: 0; } }
+
+/* --- migration progress bar --- */
+.progress { height: 8px; border-radius: 999px; background: #1b1a26; overflow: hidden; border: 1px solid var(--color-line); }
+.progress > i { display: block; height: 100%; border-radius: inherit;
+  background: linear-gradient(90deg, #d9be85, #f4e3bd, #e06a37); background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* --- status pill --- */
+.pill { border-radius: .6rem; padding: .5rem .7rem; font-size: .85rem; }
+.pill-ok { background: rgba(63,143,79,.16); color: #a7e3b0; border: 1px solid rgba(63,143,79,.4); }
+.pill-err { background: rgba(161,13,13,.18); color: #ffb3b3; border: 1px solid rgba(161,13,13,.5); }
+.pill-wait { background: rgba(37,36,52,.55); color: var(--color-dim); border: 1px solid var(--color-line); }
+
+/* --- result card --- */
+.result-glow { border-color: rgba(217,190,133,.55); animation: resultIn .5s ease both; }
+@keyframes resultIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* --- misc micro-animations --- */
+.flicker { animation: flicker 3.4s ease-in-out infinite; }
+@keyframes flicker { 0%,100% { opacity: 1; } 45% { opacity: .82; } 52% { opacity: 1; } 64% { opacity: .9; } }
+.floaty { animation: floaty 6s ease-in-out infinite; }
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.pop { animation: pop .35s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* svelte transition helper (used via svelte transitions, fallback) */
+.step-enter { animation: stepIn .45s cubic-bezier(.22,1,.36,1) both; }
+@keyframes stepIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }

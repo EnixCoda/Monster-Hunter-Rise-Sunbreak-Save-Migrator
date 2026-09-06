@@ -1,0 +1,20 @@
+NOTICE
+
+Monster Hunter Rise Sunbreak Save Migrator — Copyright (c) 2026 EnixCoda.
+Licensed under the MIT License (see LICENSE).
+
+Attribution
+- The `save_copy` CLI and the underlying save-parsing/edit logic are derived from
+  kvasszn/ree-save-editor (https://github.com/kvasszn/ree-save-editor). The upstream
+  project publishes no explicit license; this project is an independent customization
+  and is not affiliated with or endorsed by that project.
+
+Third-party game data
+- Monster Hunter Rise: Sunbreak is a trademark of CAPCOM. Reverse-engineered game
+  metadata (schema/enums) used during development is NOT shipped with this repository.
+  This is a fan-made, unofficial tool: not affiliated with or endorsed by CAPCOM.
+  Use at your own risk; always back up your saves.
+
+Privacy
+- No real save data, Steam account identifiers, or personal information is included
+  in this repository. Screenshots are not distributed with the source.

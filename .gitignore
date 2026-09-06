@@ -1,0 +1,19 @@
+node_modules/
+web/dist/
+web/node_modules/
+wasm/target/
+wasm/pkg/
+wasm/pkgnode/
+tests/fixtures/*.bin
+*.bin
+web/test-results/
+web/e2e/recordings/
+
+# locally downloaded full rsz schema (69MB; not for repo)
+assets/mhrise/rszmhrise.json
+
+# platform-specific prebuilt binary (build from src/save_copy.rs instead)
+save_copy
+
+# reverse-engineered third-party schema/enums (not shipped)
+assets/mhrise/*.json

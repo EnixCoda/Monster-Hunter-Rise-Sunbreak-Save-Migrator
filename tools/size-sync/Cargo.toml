@@ -1,0 +1,13 @@
+[package]
+name = "size-sync"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "size-sync"
+path = "src/main.rs"
+
+[dependencies]
+# ree-lib is the external MH Rise save library (same dependency the wasm crate uses).
+# It must reside at /tmp/reefresh. See README.md for the required macOS deps block.
+ree-lib = { path = "/tmp/reefresh", features = ["save"], default-features = false }
