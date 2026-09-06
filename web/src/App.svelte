@@ -478,10 +478,6 @@
       <li class="panel p-6" in:fly={{ y: 24, duration: 500 }} hidden={wiz !== 1}>
         <div class="flex items-center gap-3"><span class="medal">1</span><h2 class="font-display text-lg font-semibold tracking-wide">{t('s1.heading')}</h2></div>
         <p class="mt-2 text-sm text-zinc-400">{t('s1.desc')}</p>
-        <details class="mt-3 text-xs text-zinc-500">
-          <summary class="cursor-pointer hover:text-zinc-300">{t('s1.howto.title')}</summary>
-          <p class="mt-2 text-zinc-400">{@html t('s1.howto.body')}</p>
-        </details>
         <button on:click={pickSwitch} class="btn btn-gold mt-4"><FolderOpen size={15} /> {t('s1.pick')}</button>
         {#if swSlots.length}
           <div class="mt-4 grid gap-2">
