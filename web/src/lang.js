@@ -8,6 +8,8 @@ const en = {
   'brand.tagline': 'Take your hunt from Switch to Steam.',
   'wasm.failed': 'Wasm failed to load.',
       'fs.warn': 'This tool needs the File System Access API — use <b>Chrome or Edge</b> and open the site over localhost or HTTPS (not plain http on a LAN).',
+  's0.heading': 'Step 0 · Before You Start',
+  's0.desc': '<div class="space-y-1"><p>• <b>Homebrew Switch</b>: back up save with <b>JKSV</b> and copy the folder to this PC.</p><p>• Install <b>MH Rise: Sunbreak</b> on Steam and create &amp; save at least <b>one character</b> (a template slot).</p><p>• Use <b>Chrome/Edge</b> and open this site over <b>localhost or HTTPS</b>.</p><p>• Keep backups — saves can’t be recovered.</p></div>',
   's1.heading': 'Step 1 · Switch Save',
     's1.howto.title': 'How do I get my Switch save?',
   's1.howto.body': 'You need to back up the save from your Switch first (homebrew tools like <b>JKSV</b>) — this requires a <b>homebrew-capable (custom firmware) Switch</b>; a normal store Switch cannot export saves this way. Copy the exported folder to your computer (it contains files like <code>data001Slot.bin</code>), then pick that folder here.',
@@ -101,6 +103,9 @@ const en = {
   'res.verifyOk': 'All good — done!',
   'res.restoreNow': 'Wrong? Roll back to the backup',
   'why.template': 'A Steam-version character is needed as the base (the migration uses its framework). Create one in Rise on Steam first.',
+  'rail.prep': 'Prep',
+  'rail.prep': '准备',
+  'rail.prep': '準備',
   'rail.switch': 'Switch',
   'wiz.back': 'Back',
   'wiz.next': 'Next',
@@ -124,7 +129,7 @@ const en = {
   'res.wWrittenEmpty': '{target} ← empty',
   'res.errGeneric': '{e}',
   'footer.private': 'Runs entirely in your browser — files never uploaded anywhere.',
-  'footer.tribute': 'With appreciation to kvasszn/ree-save-editor — the framework this tool is built upon. Stay sharp, hunter.',
+  'footer.tribute': 'With appreciation to the framework this tool is built upon:'
 };
 
 const zh = {
@@ -133,6 +138,8 @@ const zh = {
   'brand.tagline': '你的狩猎旅程，从 Switch 继续到 Steam。',
   'wasm.failed': 'WebAssembly 加载失败。',
       'fs.warn': '本工具需要文件系统访问 API——请使用 <b>Chrome 或 Edge</b>，并通过 localhost 或 HTTPS 打开（请勿用普通 http 局域网地址）。',
+  's0.heading': '第 0 步 · 开始前',
+  's0.desc': '<div class="space-y-1"><p>• <b>可破解的 Switch</b>：用 <b>JKSV</b> 导出存档并拷到本机。</p><p>• 在 Steam 装 <b>MH Rise：曙光</b>，并<b>创建并保存至少一个角色</b>（模板槽）。</p><p>• 用 <b>Chrome/Edge</b>，在 <b>localhost 或 HTTPS</b> 打开本站。</p><p>• 保留存档备份，丢失无法恢复。</p></div>',
   's1.heading': '第一步 · Switch 存档',
     's1.howto.title': '如何获取 Switch 存档？',
   's1.howto.body': '需要先从 Switch 备份存档（推荐 homebrew 工具 <b>JKSV</b>）——这需要一台<b>可运行 homebrew（自定义固件）的 Switch</b>；商店买的普通 Switch 无法导出存档。把导出的文件夹拷贝到电脑（里面包含 <code>data001Slot.bin</code> 之类的文件），然后在这里选择它。',
@@ -249,7 +256,7 @@ const zh = {
   'res.wWrittenEmpty': '{target} ← 清空',
   'res.errGeneric': '{e}',
   'footer.private': '一切都在浏览器里完成——文件不会上传到任何地方。',
-  'footer.tribute': '致敬 kvasszn/ree-save-editor —— 本工具所依托的框架。愿你武运昌隆，猎人。',
+  'footer.tribute': '致敬本工具所依托的框架：'
 };
 
 const ja = {
@@ -258,6 +265,8 @@ const ja = {
   'brand.tagline': 'Switchの狩猟を、Steamへ。',
   'wasm.failed': 'WebAssembly の読み込みに失敗しました。',
       'fs.warn': 'このツールには File System Access API が必要です——<b>Chrome/Edge</b> を使用し、localhost または HTTPS で開いてください。',
+  's0.heading': '手順0・始める前に',
+  's0.desc': '<div class="space-y-1"><p>• <b>改造Switch</b>：<b>JKSV</b>でセーブを書き出し、PCへコピー。</p><p>• Steamに<b>MH Rise：サンブレイク</b>を入れ、<b>キャラを1体以上作って保存</b>（テンプレート枠）。</p><p>• <b>Chrome/Edge</b>で、<b>localhost か HTTPS</b>で開く。</p><p>• セーブのバックアップを必ず残す。</p></div>',
   's1.heading': '手順1・Switch セーブ',
     's1.howto.title': 'Switch のセーブの入手方法は？',
   's1.howto.body': 'まず Switch 本体からセーブをバックアップ（<b>JKSV</b> などの homebrew ツール）——<b>homebrew 対応（改造済み）の Switch</b> が必要です。通常の Switch では書き出せません。フォルダーを PC にコピーし（<code>data001Slot.bin</code> など）、ここで選択。',
@@ -374,7 +383,7 @@ const ja = {
   'res.wWrittenEmpty': '{target} ← 空に',
   'res.errGeneric': '{e}',
   'footer.private': 'すべてブラウザ内で完結——アップロードは一切なし。',
-  'footer.tribute': 'kvasszn/ree-save-editor に敬意を——本ツールの土台となったフレームワーク。さらなる狩りを、ハンター。',
+  'footer.tribute': '本ツールの土台となったフレームワークに敬意を：'
 };
 
 export const messages = { en, zh, ja };

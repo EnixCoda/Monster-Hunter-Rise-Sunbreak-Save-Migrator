@@ -20,6 +20,7 @@ test('backups: list pre-existing, auto-create full snapshot, restore, delete', a
   });
   page.on('dialog', d => d.accept());
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
 
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Character 1/).first()).toBeVisible();
@@ -29,6 +30,7 @@ test('backups: list pre-existing, auto-create full snapshot, restore, delete', a
 
   // pre-existing backup is listed right after picking userdata
   await expect(page.getByText(/Found account/).first()).toBeVisible({ timeout: 20000 });
+  await page.getByRole('button', { name: /Backups/ }).click();
   await expect(page.getByText(/backup_2026-09-04T00-00-00/).first()).toBeVisible();
 
   // run migration -> a full backup of the ORIGINAL save is captured first

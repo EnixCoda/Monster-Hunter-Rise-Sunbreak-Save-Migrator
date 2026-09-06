@@ -12,6 +12,7 @@ const PC_SYS = readFileSync(path.join(FIX, 'pc_data00-1.bin'));
 
 async function pickBoth(page) {
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Character 1/).first()).toBeVisible();
 
@@ -57,7 +58,7 @@ test('un-kept characters: warning shown; run removes them (kept in backup)', asy
   await page.getByRole('button', { name: /Next/ }).click();
 
   // deselect the 2nd and 3rd Steam characters in step 3 -> warning must appear
-  await page.locator('li').nth(2).getByRole('button', { name: /data002Slot\.bin/ }).click();
+  await page.locator('li').nth(3).getByRole('button', { name: /data002Slot\.bin/ }).click();
 
   const warn = page.getByText(/not in your final slots/);
   await expect(warn).toBeVisible();
@@ -77,6 +78,7 @@ test('picking win64_save directly works when Steam ID is saved', async ({ page }
     pcAsWin64: true,
   });
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Character 1/).first()).toBeVisible();
   await page.getByRole('button', { name: /Next/ }).click();
@@ -92,6 +94,7 @@ test('win64_save picked directly without a saved Steam ID → friendly guidance'
     pcAsWin64: true,
   });
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Character 1/).first()).toBeVisible();
 
@@ -99,5 +102,5 @@ test('win64_save picked directly without a saved Steam ID → friendly guidance'
   await page.getByRole('button', { name: /Choose Steam userdata folder/ }).click();
   await expect(page.getByText(/folder instead/)).toBeVisible();
   // no slots should be listed (nothing usable yet)
-  await expect(page.locator('li').nth(1).getByRole('button', { name: /data001Slot\.bin/ })).toHaveCount(0);
+  await expect(page.locator('li').nth(2).getByRole('button', { name: /data001Slot\.bin/ })).toHaveCount(0);
 });

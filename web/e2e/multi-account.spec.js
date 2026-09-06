@@ -19,6 +19,7 @@ const MULTI = {
 
 async function openWithSwitchSlot(page) {
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Character 1/).first()).toBeVisible();
 }
@@ -34,12 +35,12 @@ test('multiple accounts: chooser lists both; choose correct one → migrate writ
   await expect(page.getByText(/Steam account\(s\)/).first()).toBeVisible();
   await expect(page.getByText(/219758781/).first()).toBeVisible();
   await expect(page.getByText(/999999999/).first()).toBeVisible();
-  await expect(page.locator('li').nth(1).getByRole('button', { name: /data001Slot\.bin/ })).toHaveCount(0);
+  await expect(page.locator('li').nth(2).getByRole('button', { name: /data001Slot\.bin/ })).toHaveCount(0);
 
   await page.getByRole('button', { name: /219758781/ }).click();
   await expect(page.getByText(/Found account 219758781/)).toBeVisible({ timeout: 20000 });
   await page.getByRole('button', { name: /Next/ }).click();
-  await expect(page.locator('li').nth(2).getByRole('button', { name: /data001Slot\.bin/ }).first()).toBeVisible();
+  await expect(page.locator('li').nth(3).getByRole('button', { name: /data001Slot\.bin/ }).first()).toBeVisible();
 
   await page.getByRole('button', { name: /Run migration/ }).click();
   await page.getByRole('button', { name: /Start migration/ }).click();
@@ -80,5 +81,5 @@ test('remembered account auto-selected (no chooser)', async ({ page }) => {
   await expect(page.getByText(/Found account 219758781/)).toBeVisible({ timeout: 20000 });
   await expect(page.getByText(/Steam account\(s\)/)).toHaveCount(0);
   await page.getByRole('button', { name: /Next/ }).click();
-  await expect(page.locator('li').nth(2).getByRole('button', { name: /data001Slot\.bin/ }).first()).toBeVisible();
+  await expect(page.locator('li').nth(3).getByRole('button', { name: /data001Slot\.bin/ }).first()).toBeVisible();
 });

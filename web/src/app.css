@@ -70,6 +70,7 @@ body {
   border-radius: 1.25rem;
   box-shadow: 0 18px 40px -18px rgba(0,0,0,.7), inset 0 1px 0 rgba(243,233,210,.06);
   overflow: hidden;
+  margin-block: 1.5rem;
 }
 .panel::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -133,7 +134,7 @@ body {
 @keyframes shimmer { to { background-position: -200% 0; } }
 
 /* --- status pill --- */
-.pill { border-radius: .6rem; padding: .5rem .7rem; font-size: .85rem; }
+.pill { display: inline-block; border-radius: .6rem; padding: .5rem .7rem; font-size: .85rem; }
 .pill-ok { background: rgba(63,143,79,.16); color: #a7e3b0; border: 1px solid rgba(63,143,79,.4); }
 .pill-err { background: rgba(161,13,13,.18); color: #ffb3b3; border: 1px solid rgba(161,13,13,.5); }
 .pill-wait { background: rgba(37,36,52,.55); color: var(--color-dim); border: 1px solid var(--color-line); }

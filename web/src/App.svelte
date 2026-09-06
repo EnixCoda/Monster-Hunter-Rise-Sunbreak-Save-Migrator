@@ -21,12 +21,13 @@
   let busyScan = false, scanPhase = '';
   let loadingBackups = false;
   let restoring = false, restorePhase = '';
+  let showBackups = false;
   let lastMatches = [];
   let pendingWasm = false;
-  let wiz = 1;
+  let wiz = 0;
 
   const MAX = 3;
-  const LANG_OPTIONS = [['en', 'EN'], ['zh', '中文'], ['ja', '日本語']];
+  const LANG_OPTIONS = [['en', '🌐 English'], ['zh', '🀄 中文'], ['ja', '🇯🇵 日本語']];
   $: t = (k, vars) => fmt(k, vars, $locale);
 
   onMount(async () => {
@@ -349,7 +350,7 @@
     } catch (e) {}
   }
   const wizUnlocked = (n) => (n <= 2 ? true : n <= 3 && !!pcDir);
-  function goWiz(n) { if (restoring || busy) return; if (n < 1 || n > 3) return; if (n === 2 && !swSlots.length) return; if (n === 3 && !pcDir) return; wiz = n; if (n === 3) { pStatus = ''; sStatus = ''; } }
+  function goWiz(n) { if (restoring || busy) return; if (n < 0 || n > 3) return; if (n === 2 && !swSlots.length) return; if (n === 3 && !pcDir) return; wiz = n; if (n === 3) { pStatus = ''; sStatus = ''; } }
 
   function toggleSwitch(s) { if (!s.chosen && !canSelectMore()) { pStatus = t('msg.maxSlots'); return; } s.chosen = !s.chosen; swSlots = swSlots.slice(); rebuildLayout(); }
   function togglePc(s) { if (!s.keep && !canSelectMore()) { pStatus = t('msg.maxSlots'); return; } s.keep = !s.keep; pcSlots = pcSlots.slice(); rebuildLayout(); }
@@ -452,10 +453,12 @@
   <div class="mx-auto max-w-2xl px-6 py-12">
     <header class="mb-8 text-center">
       <h1 class="font-display title-glow text-4xl font-bold tracking-[.2em] gold-grad-text">{t('brand.title')}</h1>
-      <p class="mt-3 font-display text-[13px] tracking-[.34em] text-amber-200/80">{t('brand.game')}</p>
+      <p class="mt-3 font-display title-glow text-base font-bold tracking-[.34em] gold-grad-text">{t('brand.game')}</p>
       <div class="mx-auto my-4 h-px w-44 bg-gradient-to-r from-transparent via-amber-200/40 to-transparent"></div>
       <p class="text-sm text-amber-200/60 flicker">{t('brand.tagline')}</p>
       <div class="mt-5 flex items-center justify-center gap-2 text-xs">
+        <button on:click={() => goWiz(0)} class="rounded-full border px-2.5 py-0.5 {wiz === 0 ? 'border-amber-300 bg-amber-500/15 text-amber-200' : 'border-line text-zinc-500'}">0 · {t('rail.prep')}</button>
+        <span class="text-zinc-600">→</span>
         <button on:click={() => goWiz(1)} class="rounded-full border px-2.5 py-0.5 {swSlots.length && wiz >= 1 ? 'border-amber-300 bg-amber-500/15 text-amber-200' : 'border-line text-zinc-500'}">1 · {t('rail.switch')}</button>
         <span class="text-zinc-600">→</span>
         <button on:click={() => goWiz(2)} class="rounded-full border px-2.5 py-0.5 {pcSlots.length && wiz >= 2 ? 'border-amber-300 bg-amber-500/15 text-amber-200' : 'border-line text-zinc-500'}">2 · {t('rail.steam')}</button>
@@ -468,6 +471,10 @@
     {#if !fsSupported}<div class="mb-6 flex items-start gap-2 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-200/90"><AlertTriangle size={16} class="mt-0.5 shrink-0" /> <span>{t('fs.warn')}</span></div>{/if}
 
     <ol class="space-y-6">
+      <li class="panel p-6" in:fly={{ y: 24, duration: 500 }} hidden={wiz !== 0}>
+        <div class="flex items-center gap-3"><span class="medal">0</span><h2 class="font-display text-lg font-semibold tracking-wide">{t('s0.heading')}</h2></div>
+        <p class="mt-3 text-sm text-zinc-400">{@html t('s0.desc')}</p>
+      </li>
       <li class="panel p-6" in:fly={{ y: 24, duration: 500 }} hidden={wiz !== 1}>
         <div class="flex items-center gap-3"><span class="medal">1</span><h2 class="font-display text-lg font-semibold tracking-wide">{t('s1.heading')}</h2></div>
         <p class="mt-2 text-sm text-zinc-400">{t('s1.desc')}</p>
@@ -605,8 +612,11 @@
     {#if pStatus}<div class="mb-4"><span class="pill {pState==='ok'?'pill-ok':'pill-err'} text-xs">{pStatus}</span></div>{/if}
     {#if pcDirName}
     <section class="panel p-6 mb-8">
-      <div class="mb-2 flex items-center gap-2 text-sm font-semibold text-zinc-300"><History size={14} /> {t('backups.title')} <span class="text-xs font-normal text-zinc-500">({backups.length}) · {t('backups.hint')}</span></div>
-      {#if pcDirName}
+      <button on:click={() => (showBackups = !showBackups)} class="flex w-full items-center gap-2 text-left text-sm font-semibold text-zinc-300" aria-expanded={showBackups}>
+        <History size={14} /> {t('backups.title')} <span class="text-xs font-normal text-zinc-500">({backups.length}) · {t('backups.hint')}</span>
+        <span class="ml-auto text-xs text-zinc-500">{showBackups ? '−' : '+'}</span>
+      </button>
+      {#if showBackups}
       <div class="mt-4 border-t border-line pt-4">
             {#if backups.length}
               <p class="mb-2 text-xs text-zinc-500">{t('backups.legend')}</p>
@@ -639,7 +649,7 @@
     {/if}
 
     <div class="mb-8 flex items-center justify-center gap-2">
-      {#if wiz > 1}<button on:click={() => goWiz(wiz - 1)} class="btn btn-ghost text-xs">← {t('wiz.back')}</button>{/if}
+      {#if wiz > 0}<button on:click={() => goWiz(wiz - 1)} class="btn btn-ghost text-xs">← {t('wiz.back')}</button>{/if}
       {#if wiz < 3}
         <button on:click={() => goWiz(wiz + 1)} disabled={(wiz === 1 && !swSlots.length) || (wiz === 2 && !pcDir)} class="btn btn-gold text-xs">{t('wiz.next')} →</button>
       {:else}
@@ -712,7 +722,7 @@
 
     <footer class="mt-10 text-center text-xs text-zinc-500">
       <p class="flex items-center justify-center gap-1.5"><ShieldCheck size={14} /> {t('footer.private')}</p>
-      <p class="mt-2 text-amber-200/60">{t('footer.tribute')}</p>
+      <p class="mt-2 text-amber-200/60">{t('footer.tribute')} <a href="https://github.com/kvasszn/ree-save-editor" target="_blank" rel="noopener noreferrer" class="text-amber-200/80 underline hover:text-amber-100">kvasszn/ree-save-editor</a></p>
     </footer>
   </div>
 </div>

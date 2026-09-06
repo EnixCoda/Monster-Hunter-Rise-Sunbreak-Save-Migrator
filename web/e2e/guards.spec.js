@@ -17,6 +17,7 @@ test('cancel picker shows friendly state and writes nothing', async ({ page }) =
     cancelOn: 1,
   });
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Picking cancelled/)).toBeVisible();
   const wrote = await page.evaluate(() => Object.keys(window.__captures).length);
@@ -29,6 +30,7 @@ test('more than 3 characters: hard guard, nothing written', async ({ page }) => 
     pcFiles: { 'data00-1.bin': Array.from(PC_SYS), 'data001Slot.bin': Array.from(PC_SLOT), 'data002Slot.bin': Array.from(PC_SLOT) },
   });
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Character 1/).first()).toBeVisible();
 
@@ -49,14 +51,15 @@ test('corrupt switch slot: flagged unreadable, not auto-selected', async ({ page
     pcFiles: { 'data00-1.bin': Array.from(PC_SYS), 'data001Slot.bin': Array.from(PC_SLOT) },
   });
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
 
-  const switchList = page.locator('li').nth(0);
+  const switchList = page.locator('li').nth(1);
   await expect(switchList).toContainText("can't read");   // corrupt slot flagged
   await expect(switchList).toContainText('· OK');            // valid slot ok
   await expect(switchList).toContainText('Character 1');     // unnamed fallback label, no file names
   // slots area stays hidden until both folders are picked
-  await expect(page.locator('li').nth(2)).toContainText('Pick your Switch and Steam folders above to see your final slots.');
+  await expect(page.locator('li').nth(3)).toContainText('Pick your Switch and Steam folders above to see your final slots.');
 });
 
 test('no FS Access API -> guidance pill', async ({ page }) => {
@@ -65,6 +68,7 @@ test('no FS Access API -> guidance pill', async ({ page }) => {
     Object.defineProperty(window, 'showDirectoryPicker', { value: undefined, configurable: true });
   });
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   // support banner appears immediately
   await expect(page.getByText(/File System Access API/)).toBeVisible();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();

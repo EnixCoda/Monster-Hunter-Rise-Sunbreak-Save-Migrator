@@ -16,6 +16,7 @@ test('reorder: kept char moved to slot 1 stays original; switch lands in slot 2'
     pcFiles: { 'data00-1.bin': Array.from(PC_SYS), 'data001Slot.bin': Array.from(PC_SLOT) },
   });
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
 
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Character 1/).first()).toBeVisible();
@@ -25,7 +26,7 @@ test('reorder: kept char moved to slot 1 stays original; switch lands in slot 2'
   await expect(page.getByText(/auto-detected|Found account/).first()).toBeVisible({ timeout: 20000 });
   await page.getByRole('button', { name: /Next/ }).click();
 
-  const layout = page.locator('li').nth(2);
+  const layout = page.locator('li').nth(3);
   const kinds = () => layout.locator('div[data-kind]').evaluateAll(es => es.map(e => e.getAttribute('data-kind')));
   // default: switch first, kept after
   expect(await kinds()).toEqual(['switch', 'keep']);

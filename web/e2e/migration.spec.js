@@ -18,6 +18,7 @@ test('full migration flow (mock FS Access)', async ({ page }) => {
   });
 
   await page.goto('http://127.0.0.1:5173/');
+  await page.getByRole('button', { name: /Next/ }).click();
   await expect(page.getByText('SAVE MIGRATOR')).toBeVisible();
 
   // Step 1: choose Switch folder -> valid slots auto-selected -> listed
@@ -30,7 +31,7 @@ test('full migration flow (mock FS Access)', async ({ page }) => {
   await page.getByRole('button', { name: /Next/ }).click();
   await page.getByRole('button', { name: /Choose Steam userdata folder/ }).click();
   await expect(page.getByText(/auto-detected|Found account/).first()).toBeVisible({ timeout: 20000 });
-  await page.getByText(/Backups/).first().click();
+  await page.getByRole('button', { name: /Backups/ }).click();
   await expect(page.getByText("No backups yet — they're created automatically before every migration.")).toBeVisible();
 
   // Step 3: run
