@@ -5,7 +5,8 @@ export const SUPPORTED = ['en', 'zh', 'ja'];
 const en = {
   'brand.title': 'SAVE MIGRATOR',
   'brand.game': 'MONSTER HUNTER RISE · SUNBREAK',
-  'brand.tagline': 'Take your hunt from Switch to Steam.',
+  'brand.tagline': 'Three simple steps — your Switch hunter\'s journey continues on Steam.',
+  'brand.items': 'Character · Playtime · Zenny · Points · HR/MR · Items · Gear · Talismans · Decorations · Quest progress · Hunt record',
   'wasm.failed': 'Wasm failed to load.',
       'fs.warn': 'This tool needs the File System Access API — use <b>Chrome or Edge</b> and open the site over localhost or HTTPS (not plain http on a LAN).',
   's0.heading': 'Step 0 · Before You Start',
@@ -131,7 +132,8 @@ const en = {
 const zh = {
   'brand.title': 'SAVE MIGRATOR',
   'brand.game': 'MONSTER HUNTER RISE · SUNBREAK',
-  'brand.tagline': '你的狩猎旅程，从 Switch 继续到 Steam。',
+  'brand.tagline': '简单三步，让你的 Switch 猎人生涯在 Steam 完美延续。',
+  'brand.items': '角色形象 · 时长 · 金钱 · 点数 · HR/MR · 道具 · 装备 · 护石 · 装饰品 · 任务进度 · 狩猎记录',
   'wasm.failed': 'WebAssembly 加载失败。',
       'fs.warn': '本工具需要文件系统访问 API——请使用 <b>Chrome 或 Edge</b>，并通过 localhost 或 HTTPS 打开（请勿用普通 http 局域网地址）。',
   's0.heading': '第 0 步 · 开始前',
@@ -257,7 +259,8 @@ const zh = {
 const ja = {
   'brand.title': 'SAVE MIGRATOR',
   'brand.game': 'MONSTER HUNTER RISE · SUNBREAK',
-  'brand.tagline': 'Switchの狩猟を、Steamへ。',
+  'brand.tagline': '簡単3ステップで、Switchの狩りの日々をSteamでそのまま続けよう。',
+  'brand.items': 'キャラ · プレイ時間 · ゼニー · ポイント · HR/MR · アイテム · 装備 · 護石 · 装飾品 · クエスト進行 · 狩猟記録',
   'wasm.failed': 'WebAssembly の読み込みに失敗しました。',
       'fs.warn': 'このツールには File System Access API が必要です——<b>Chrome/Edge</b> を使用し、localhost または HTTPS で開いてください。',
   's0.heading': '手順0・始める前に',

@@ -20,22 +20,22 @@ test('language switch renders zh/ja and persists across reload', async ({ page }
 
   // default EN
   await expect(page.getByText('SAVE MIGRATOR')).toBeVisible();
-  await expect(page.getByText(/Take your hunt from Switch to Steam/)).toBeVisible();
+  await expect(page.getByText(/your Switch hunter's journey continues on Steam/)).toBeVisible();
 
   // switch to 中文
   await page.getByRole('button', { name: /中文/ }).click();
-  await expect(page.getByText(/从 Switch 继续到 Steam/)).toBeVisible();
+  await expect(page.getByText(/你的 Switch 猎人生涯在 Steam 完美延续/)).toBeVisible();
   await expect(page.getByRole('button', { name: /选择 Switch 文件夹/ })).toBeVisible();
 
   // switch to 日本語
   await page.getByRole('button', { name: /日本語/ }).click();
-  await expect(page.getByText(/Steamへ/)).toBeVisible();
+  await expect(page.getByText(/Switchの狩りの日々をSteamでそのまま続けよう/)).toBeVisible();
   await expect(page.getByRole('button', { name: /Switch フォルダーを選択/ })).toBeVisible();
   await expect(page.getByRole('button', { name: /次へ/ })).toBeVisible();
 
   // persists after reload
   await page.reload();
-  await expect(page.getByText(/Steamへ/)).toBeVisible();
+  await expect(page.getByText(/Switchの狩りの日々をSteamでそのまま続けよう/)).toBeVisible();
 });
 
 test('full flow works in 中文', async ({ page }) => {

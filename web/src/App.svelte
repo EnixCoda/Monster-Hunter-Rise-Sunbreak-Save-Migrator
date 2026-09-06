@@ -456,6 +456,7 @@
       <p class="mt-3 font-display title-glow text-lg font-semibold tracking-[.34em] text-amber-200/90">{t('brand.title')}</p>
       <div class="mx-auto my-4 h-px w-44 bg-gradient-to-r from-transparent via-amber-200/40 to-transparent"></div>
       <p class="text-sm text-amber-200/60 flicker">{t('brand.tagline')}</p>
+      <p class="mt-1 text-xs text-amber-200/45">{t('brand.items')}</p>
       <div class="mt-5 flex items-center justify-center gap-2 text-xs">
         <button on:click={() => goWiz(0)} class="rounded-full border px-2.5 py-0.5 {wiz === 0 ? 'border-amber-300 bg-amber-500/15 text-amber-200' : 'border-line text-zinc-500'}">0 · {t('rail.prep')}</button>
         <span class="text-zinc-600">→</span>
