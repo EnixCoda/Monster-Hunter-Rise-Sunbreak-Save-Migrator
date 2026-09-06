@@ -28,25 +28,26 @@ test('reorder: kept char moved to slot 1 stays original; switch lands in slot 2'
 
   const layout = page.locator('li').nth(3);
   const kinds = () => layout.locator('div[data-kind]').evaluateAll(es => es.map(e => e.getAttribute('data-kind')));
-  // default: switch first, kept after
-  expect(await kinds()).toEqual(['switch', 'keep']);
-
-  // move switch (slot 1) down -> kept char becomes slot 1
-  await layout.getByRole('button', { name: 'Move down' }).first().click();
+  // default: Steam (kept) character first, Switch char after -> minimal change to the Steam save
   expect(await kinds()).toEqual(['keep', 'switch']);
+
+  // reorder: move the kept Steam char down -> Switch char to slot 1
+  await layout.getByRole('button', { name: 'Move down' }).first().click();
+  expect(await kinds()).toEqual(['switch', 'keep']);
 
   await page.getByRole('button', { name: /Run migration/ }).click();
   await page.getByRole('button', { name: /Start migration/ }).click();
   await expect(page.getByText('Migration complete!')).toBeVisible({ timeout: 60000 });
 
   const captures = await page.evaluate(() => window.__captures);
-  // CRITICAL: kept char must be byte-identical to the original PC character (snapshot fix)
-  expect(buffersEqual(captures['data001Slot.bin'], new Uint8Array(PC_SLOT))).toBe(true);
-  // migrated switch went to slot 2 with a link matching the final sys
-  const slot2 = captures['data002Slot.bin'];
-  expect(slot2.length).toBeGreaterThan(100000);
+  // CRITICAL: kept char must be byte-identical to the original PC character (snapshot fix),
+  // now in slot 2 (data002Slot.bin) after the reorder.
+  expect(buffersEqual(captures['data002Slot.bin'], new Uint8Array(PC_SLOT))).toBe(true);
+  // migrated switch went to slot 1 (data001Slot.bin) with a link matching the final sys
+  const slot1 = captures['data001Slot.bin'];
+  expect(slot1.length).toBeGreaterThan(100000);
   const sys = captures['data00-1.bin'];
-  const linkSlot = new DataView(slot2.buffer).getUint32(0x0C, true);
+  const linkSlot = new DataView(slot1.buffer).getUint32(0x0C, true);
   const linkSys = new DataView(sys.buffer).getUint32(0x0C, true);
   expect(linkSlot).toBe(linkSys);
 });

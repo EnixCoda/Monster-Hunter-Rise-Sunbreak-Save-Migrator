@@ -12,6 +12,7 @@
   let swDir = null, swSlots = [];       // switch slots found (each: name, size, valid, chosen)
   let pcDir = null, pcDirName = '', pcSlots = [];  // pc slots found (each: n, name, status, keep)
   let layout = [];                       // final 3 slots: {slots: [...], indexes}
+  let layoutDirty = false;               // becomes true once the user manually reorders
   let pStatus = '', pState = '', sStatus = '', sState = '';
   let result = null, phase = '', progress = 0;
   let backups = [];
@@ -164,20 +165,30 @@
     const chosen = new Map();
     for (const s of swSlots) if (s.chosen) chosen.set('s:' + s.name, { kind: 'switch', src: s });
     for (const s of pcSlots) if (s.keep) chosen.set('k:' + s.name, { kind: 'keep', src: s });
-    const next = [];
+    let next = [];
     for (const item of layout) {
       const id = (item.kind === 'switch' ? 's:' : 'k:') + item.src.name;
       const c = chosen.get(id);
       if (c) { next.push(c); chosen.delete(id); }
     }
-    for (const s of swSlots) { const c = chosen.get('s:' + s.name); if (c) { next.push(c); chosen.delete('s:' + s.name); } }
+    // Default: keep existing Steam characters in their slots first, then append Switch chars
+    // (minimises changes to the Steam save).
     for (const s of pcSlots) { const c = chosen.get('k:' + s.name); if (c) { next.push(c); chosen.delete('k:' + s.name); } }
+    for (const s of swSlots) { const c = chosen.get('s:' + s.name); if (c) { next.push(c); chosen.delete('s:' + s.name); } }
+    // Default: keep existing Steam characters first (minimise Steam-save changes);
+    // stop auto-sorting once the user manually reorders.
+    if (!layoutDirty) {
+      const keeps = next.filter(x => x.kind === 'keep');
+      const switches = next.filter(x => x.kind === 'switch');
+      next = keeps.concat(switches);
+    }
     layout = next.slice(0, MAX);
   }
 
   function move(i, dir) {
     const j = i + dir;
     if (j < 0 || j >= layout.length) return;
+    layoutDirty = true;
     layout = layout.slice();
     const tmp = layout[i]; layout[i] = layout[j]; layout[j] = tmp;
   }
