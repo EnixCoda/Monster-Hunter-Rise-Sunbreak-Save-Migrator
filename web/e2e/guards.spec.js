@@ -70,7 +70,7 @@ test('no FS Access API -> guidance pill', async ({ page }) => {
   await page.goto('http://127.0.0.1:5173/');
   await page.getByRole('button', { name: /Next/ }).click();
   // support banner appears immediately
-  await expect(page.getByText(/File System Access API/)).toBeVisible();
+  await expect(page.getByText(/Chrome or Edge/)).toBeVisible();
   await page.getByRole('button', { name: /Choose Switch folder/ }).click();
   await expect(page.getByText(/Need Chrome\/Edge/)).toBeVisible();
 });
