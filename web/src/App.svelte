@@ -27,7 +27,7 @@
   let wiz = 0;
 
   const MAX = 3;
-  const LANG_OPTIONS = [['en', '🌐 English'], ['zh', '🀄 中文'], ['ja', '🇯🇵 日本語']];
+  const LANG_OPTIONS = [['en', '🌐 English'], ['zh', '🇨🇳 中文'], ['ja', '🇯🇵 日本語']];
   $: t = (k, vars) => fmt(k, vars, $locale);
 
   onMount(async () => {
@@ -452,8 +452,8 @@
 <div class="relative min-h-screen">
   <div class="mx-auto max-w-2xl px-6 py-12">
     <header class="mb-8 text-center">
-      <h1 class="font-display title-glow text-4xl font-bold tracking-[.2em] gold-grad-text">{t('brand.title')}</h1>
-      <p class="mt-3 font-display title-glow text-base font-bold tracking-[.34em] gold-grad-text">{t('brand.game')}</p>
+      <h1 class="font-display title-glow text-4xl font-bold tracking-[.2em] gold-grad-text">{t('brand.game')}</h1>
+      <p class="mt-3 font-display title-glow text-lg font-semibold tracking-[.34em] text-amber-200/90">{t('brand.title')}</p>
       <div class="mx-auto my-4 h-px w-44 bg-gradient-to-r from-transparent via-amber-200/40 to-transparent"></div>
       <p class="text-sm text-amber-200/60 flicker">{t('brand.tagline')}</p>
       <div class="mt-5 flex items-center justify-center gap-2 text-xs">
@@ -473,7 +473,7 @@
     <ol class="space-y-6">
       <li class="panel p-6" in:fly={{ y: 24, duration: 500 }} hidden={wiz !== 0}>
         <div class="flex items-center gap-3"><span class="medal">0</span><h2 class="font-display text-lg font-semibold tracking-wide">{t('s0.heading')}</h2></div>
-        <p class="mt-3 text-sm text-zinc-400">{@html t('s0.desc')}</p>
+        <div class="mt-3 text-sm text-zinc-400">{@html t('s0.desc')}</div>
       </li>
       <li class="panel p-6" in:fly={{ y: 24, duration: 500 }} hidden={wiz !== 1}>
         <div class="flex items-center gap-3"><span class="medal">1</span><h2 class="font-display text-lg font-semibold tracking-wide">{t('s1.heading')}</h2></div>
