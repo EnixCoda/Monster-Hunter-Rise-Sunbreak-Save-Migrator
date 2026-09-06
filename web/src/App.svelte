@@ -49,7 +49,7 @@
   const canSelectMore = () => chosenCount() < MAX;
 
   async function rescanSwitch() { if (swDir) { try { let o=[]; for await (const [name,h] of swDir.entries()) { if (name.match(/^data0+\d+Slot\.bin$/)) { const b=await read(h); let v=false; if (wasm&&steamid){try{const a=await analyze(b, steamid); v=a.ok;}catch(e){}} o.push({name,size:b.length,valid:v,chosen:v,bytes:b}); } } o.sort((a,b)=>a.name.localeCompare(b.name)); swSlots=o; rebuildLayout(); } catch(e){} } }
-  async function rescanPc() { if (pcDir) { try { let o=[]; for (let i=1;i<=3;i++){ const name=`data00${i}Slot.bin`; let status='empty'; try { const fh=await pcDir.getFileHandle(name); const b=await read(fh); let v=false; if (wasm&&steamid){try{v=wasm.validate_switch(b,BigInt(steamid)).startsWith('ok');}catch(e){}} status=v?'valid':(b.length?'unreadable':'empty'); } catch(e){status='empty';} o.push({n:i,name,status,keep:status==='valid'}); } pcSlots=o; rebuildLayout(); } catch(e){} } }
+  async function rescanPc() { if (pcDir) { try { let o=[]; for (let i=1;i<=3;i++){ const name=`data00${i}Slot.bin`; let status='empty'; let hr=null; try { const fh=await pcDir.getFileHandle(name); const b=await read(fh); let v=false; if (wasm&&steamid){try{const a=await analyze(b, steamid); v=a.ok; if (a.rank && a.rank[0]!=null) hr=a.rank[0];}catch(e){}} status=v?'valid':(b.length?'unreadable':'empty'); } catch(e){status='empty';} o.push({n:i,name,status,keep:status==='valid',hr}); } pcSlots=o; rebuildLayout(); } catch(e){} } }
 
   async function rescanPcFull() {
     if (!pcDir) return;
@@ -61,6 +61,7 @@
         const fh = await pcDir.getFileHandle(name);
         const b = await read(fh);
         let ok = false;
+        // sync validation here (restore shows a blocking overlay; avoids a worker hang)
         if (wasm && steamid) { try { ok = wasm.validate_switch(b, BigInt(steamid)).startsWith('ok'); } catch (e) {} }
         if (ok && wasm) { try { const r = wasm.slot_rank(b, BigInt(steamid)); if (r && r[0] != null) hr = r[0]; } catch (e) {} }
         status = ok ? 'valid' : (b.length ? 'unreadable' : 'empty');

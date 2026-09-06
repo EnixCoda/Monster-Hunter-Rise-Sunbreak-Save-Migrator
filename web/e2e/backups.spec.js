@@ -67,6 +67,8 @@ test('backups: list pre-existing, auto-create full snapshot, restore, delete', a
   expect(buffersEqual(afterRestore.slot, new Uint8Array(PC_SLOT))).toBe(true);
   expect(buffersEqual(afterRestore.sys, new Uint8Array(PC_SYS))).toBe(true);
   expect(afterRestore.preKeys.length).toBeGreaterThanOrEqual(2); // pre-restore snapshot captured
+  // wait for the restore to fully finish (restoring overlay cleared) so delete isn't guarded
+  await expect(page.getByText('Restoring backup…')).toHaveCount(0);
 
   // delete the pre-existing backup
   await page.evaluate((pre) => {
