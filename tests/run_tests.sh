@@ -85,5 +85,13 @@ else
   echo "  (fixtures absent - skipping full migration)"
 fi
 
+say "5. hunter-entry sync mapping (cross-slot, wasm)"
+if command -v node >/dev/null 2>&1 && [ -f "$ROOT/wasm/pkgnode/mhsave_wasm.js" ] && \
+   [ -f "$ROOT/web/e2e/fixtures/switch_data00-1.bin" ]; then
+  if node "$ROOT/tests/sync_mapping_test.js"; then ok "sync mapping"; else fail "sync mapping"; fi
+else
+  echo "  (node or wasm/fixtures absent - skipping sync mapping)"
+fi
+
 say "RESULT"
 if [ "$FAIL" -eq 0 ]; then echo "ALL PASSED"; else echo "SOME FAILED"; exit 1; fi

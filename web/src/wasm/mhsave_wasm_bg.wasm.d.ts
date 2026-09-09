@@ -1,12 +1,31 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export const class_sigs: (a: number, b: number, c: bigint) => [number, number, number];
+export const content_sig: (a: number, b: number, c: bigint) => [number, number, number, number];
+export const copy_hunter_entry: (a: number, b: number, c: number, d: number, e: bigint, f: number, g: bigint, h: number, i: number, j: number) => [number, number, number];
+export const decrypted_bytes: (a: number, b: number, c: bigint) => [number, number, number];
 export const detect_curve: (a: number, b: number, c: bigint) => [number, number, number];
+export const edit_report: (a: number, b: number, c: bigint) => [number, number, number];
+export const field_dump: (a: number, b: number, c: bigint) => [number, number, number];
 export const hunter_names: (a: number, b: number, c: bigint) => any;
 export const migrate: (a: number, b: number, c: number, d: number, e: number, f: number, g: bigint, h: number) => [number, number, number];
+export const migrate_acct: (a: number, b: number, c: bigint, d: number, e: number, f: number, g: number, h: bigint, i: number, j: number) => [number, number, number];
+export const migrate_sys: (a: number, b: number, c: bigint, d: number, e: number, f: bigint, g: number, h: number, i: number) => [number, number, number];
+export const migrate_x: (a: number, b: number, c: bigint, d: number, e: number, f: number, g: number, h: bigint, i: number, j: number) => [number, number, number];
+export const patch_bytes: (a: number, b: number, c: bigint, d: number, e: number, f: number, g: number) => [number, number, number];
+export const patch_link: (a: number, b: number, c: number) => [number, number, number];
+export const raw_patch_str: (a: number, b: number, c: bigint, d: number, e: number, f: number, g: number) => [number, number, number];
+export const raw_patch_u32: (a: number, b: number, c: bigint, d: number, e: number, f: number) => [number, number, number];
+export const rekey: (a: number, b: number, c: bigint, d: bigint, e: number, f: number) => [number, number, number];
+export const set_both_names: (a: number, b: number, c: bigint, d: number, e: number, f: number) => [number, number, number];
+export const set_hunter_name: (a: number, b: number, c: bigint, d: number, e: number, f: number) => [number, number, number];
+export const set_slot_used: (a: number, b: number, c: bigint, d: number, e: number) => [number, number, number];
 export const slot_names: (a: number, b: number, c: bigint) => any;
 export const slot_rank: (a: number, b: number, c: bigint) => any;
 export const slot_times: (a: number, b: number, c: bigint) => any;
+export const slot_used_flags: (a: number, b: number, c: bigint) => [number, number, number];
+export const sync_hunter_entry: (a: number, b: number, c: number, d: number, e: bigint, f: number, g: number, h: number) => [number, number, number];
 export const validate_steam: (a: number, b: number, c: number, d: number, e: bigint) => [number, number, number, number];
 export const validate_switch: (a: number, b: number, c: bigint) => [number, number, number, number];
 export const __wbindgen_exn_store: (a: number) => void;
@@ -15,4 +34,5 @@ export const __wbindgen_externrefs: WebAssembly.Table;
 export const __wbindgen_malloc: (a: number, b: number) => number;
 export const __externref_table_dealloc: (a: number) => void;
 export const __wbindgen_free: (a: number, b: number, c: number) => void;
+export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
 export const __wbindgen_start: () => void;

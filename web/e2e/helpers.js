@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 export function haveFixtures() {
   const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'fixtures');
   return existsSync(path.join(dir, 'switch_data001Slot.bin')) &&
+         existsSync(path.join(dir, 'switch_data00-1.bin')) &&
          existsSync(path.join(dir, 'pc_data002Slot.bin')) &&
          existsSync(path.join(dir, 'pc_data00-1.bin'));
 }

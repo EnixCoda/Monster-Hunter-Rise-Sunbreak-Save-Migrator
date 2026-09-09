@@ -19,6 +19,9 @@ npm run build      # static site → web/dist
 ## 💻 CLI (macOS/Linux)
 Same migration from the terminal via `migrate_switch_to_steam.sh` (usage in its header). Uses the prebuilt `save_copy` — rebuild from `src/save_copy.rs` if needed.
 
+## 🔁 Steam → Steam (account transfer)
+Move a character from one Steam account to another with `tools/steam2steam.js` — same class-copy approach as Switch → Steam, plus the account-identity fixes the game validates (SteamID64, character GUID `e40fc0cd`, sys hunter-entry display values and the `eec7904b` appearance class). Usage and mechanism: [`tools/steam2steam.md`](./tools/steam2steam.md).
+
 ## Tests
 ```bash
 cd tests && ./run_tests.sh           # CLI self-checks

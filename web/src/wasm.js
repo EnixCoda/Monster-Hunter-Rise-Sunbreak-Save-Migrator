@@ -1,4 +1,4 @@
-import init, { validate_switch, validate_steam, migrate, detect_curve, slot_rank, slot_names, slot_times, hunter_names } from './wasm/mhsave_wasm.js';
+import init, { validate_switch, validate_steam, migrate, detect_curve, slot_rank, slot_names, slot_times, hunter_names, sync_hunter_entry } from './wasm/mhsave_wasm.js';
 let ready = false;
 export async function ensureWasm() {
   if (!ready) { await init(); ready = true; }
@@ -74,3 +74,19 @@ export async function sysTimes(data, steamid) {
   }
 }
 export const migrateOff = (data, template, sys, steamid, curve) => req({ type: 'migrate', data, template, sys, steamid: BigInt(steamid), curve });
+
+// Copy the title-screen hunter entry (name/HR/MR/play time/buddies/outfit colours +
+// the whole appearance class with gender/face/hair/voice) from the Switch sys into the
+// target PC sys. Worker-first, main-thread fallback.
+export async function syncHunter(sys, srcSys, steamid, curve, tgtIdx, srcIdx) {
+  try {
+    return await withTimeout(req({ type: 'sync', sys, srcSys, steamid: BigInt(steamid), curve, tgtIdx, srcIdx }), 20000);
+  } catch (e) {
+    try {
+      const r = sync_hunter_entry(sys, srcSys, BigInt(steamid), curve, tgtIdx, srcIdx);
+      return { sys: r.sys, replaced: r.replaced };
+    } catch (e2) {
+      return null;
+    }
+  }
+}

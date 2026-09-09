@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { fly, scale } from 'svelte/transition';
   import { FolderOpen, CheckCircle2, ShieldCheck, AlertTriangle, Loader2, Sparkles, ArrowUp, ArrowDown, History, RotateCcw, UserRound } from 'lucide-svelte';
-  import { ensureWasm, analyze, sysNames, hunterNames, sysTimes, migrateOff } from './wasm.js';
+  import { ensureWasm, analyze, sysNames, hunterNames, sysTimes, migrateOff, syncHunter } from './wasm.js';
   import { locale, setLocale, initLocale, fmt } from './lang.js';
 
   let wasm = null, wasmError = '';
@@ -407,6 +407,8 @@
       const original = {};
       for (let i = 1; i <= 3; i++) { const n = `data00${i}Slot.bin`; try { original[n] = await read(await pcDir.getFileHandle(n)); } catch (e) {} }
       let sys = []; try { sys = await read(await pcDir.getFileHandle('data00-1.bin')); } catch (e) {}
+      // Switch sys — source of the title-screen character entries (name/HR/MR/buddies/appearance).
+      let swSys = []; try { swSys = await read(await swDir.getFileHandle('data00-1.bin')); } catch (e) {}
       // Back up the whole original save first (inside win64_save, before touching anything).
       const backupName = await createBackup(pcDir);
 
@@ -427,6 +429,16 @@
             busy = false; setTimeout(() => migrating = false, 500); return;
           }
           sys = r.sys;
+          // Also sync the title-screen entry (name/HR/MR/play time/buddies/outfit colours
+          // + gender/face/hair/voice appearance class) from the matching Switch sys entry.
+          try {
+            const sm = item.src.name.match(/data0+(\d+)Slot\.bin/);
+            const srcIdx = sm ? parseInt(sm[1], 10) - 1 : -1;
+            if (swSys && swSys.length && srcIdx >= 0) {
+              const sr = await syncHunter(sys, swSys, steamid, curve, i, srcIdx);
+              if (sr && sr.sys) sys = sr.sys;
+            }
+          } catch (e) {}
           const out = new Uint8Array(r.slot);
           await writeFile(pcDir, targetName, out);
           written.push(t('res.wWrittenSwitch', { target: targetName, name: slotDisplay(item.src) }));

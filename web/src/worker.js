@@ -1,10 +1,10 @@
-import init, { slot_rank, slot_names, slot_times, hunter_names, validate_switch, migrate } from './wasm/mhsave_wasm.js';
+import init, { slot_rank, slot_names, slot_times, hunter_names, validate_switch, migrate, sync_hunter_entry } from './wasm/mhsave_wasm.js';
 
 let ready = false;
 async function ensure() { if (!ready) { await init(); ready = true; } }
 
 self.onmessage = async (e) => {
-  const { id, type, data, sys, template, steamid, curve } = e.data;
+  const { id, type, data, sys, template, steamid, curve, srcSys, tgtIdx, srcIdx } = e.data;
   try {
     await ensure();
     let res;
@@ -22,6 +22,9 @@ self.onmessage = async (e) => {
     } else if (type === 'migrate') {
       const r = migrate(data, template, sys, steamid, curve);
       res = { slot: r.slot, sys: r.sys, copied: r.copied };
+    } else if (type === 'sync') {
+      const r = sync_hunter_entry(sys, srcSys, steamid, curve, tgtIdx, srcIdx);
+      res = { sys: r.sys, replaced: r.replaced };
     }
     self.postMessage({ id, ok: true, res });
   } catch (err) {
